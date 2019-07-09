@@ -1,0 +1,96 @@
+#include<iostream>
+#include<math.h>
+#include<algorithm>
+#include<string>
+using namespace std;
+class dynamicf {
+float *p;
+int s;
+public:
+	dynamicf(){
+	p=NULL;
+	s=0;
+	}
+	int getsize(){return s;}
+	void setsize(int news){
+		if(s==0){s=news;p =new  float [s]; return;}
+		float *T=new float [news];
+		int m=s;
+		if(news<m) m=news;//sort
+		for(int i=0;i<m;i++)
+			T[i]=p[i];
+		delete []p;
+		p=T;
+		s=news;
+	
+	}
+	void setel(int i,float f){
+	p[i]=f;
+	
+	}
+	float getel(int i){return p[i];}
+ 
+void add(float f){
+   setsize(s+1);
+   p[s-1]=f;
+   
+}
+void insert(int i,float f){
+setsize(s+1);
+for(int k=s-1;k>i;k--)
+	p[k]=p[k-1];
+p[i]=f;
+}
+void remove(int i){
+   float val;
+   for(int k=i;k<s-1;k++){
+      val=p[k+1];
+      p[k+1]=p[k];
+      p[k]=val;
+   }
+  setsize(s-1);
+ 
+}
+void tear(dynamicf b){    
+float size =s+b.getsize();
+float m=s;
+setsize(size);
+int n=0;
+for(int i=m;i<size;i++){
+	p[i]=b.getel(n);
+	n++;
+}
+
+
+}
+
+~dynamicf(){
+   if(p!=NULL) delete []p;
+   
+}
+
+
+};//////end of class
+int main(){
+dynamicf a1,b1;
+int x=6;
+a1.setsize(x);
+b1.setsize(x+1);
+int n=0;
+for(int i=0;i<x;i++){
+   cin>>n;
+   a1.setel(i,n);
+   
+}
+for(int i=0;i<x+1;i++){
+   cin>>n;
+   b1.setel(i,n);
+   
+}
+a1.tear(b1);
+for(int i=0;i<a1.getsize();i++){
+  cout<< a1.getel(i)<<" " ;
+   
+}
+
+}
